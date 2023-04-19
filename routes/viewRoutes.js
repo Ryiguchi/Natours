@@ -8,7 +8,7 @@ const router = express.Router();
 // protect checks for bearer token and put user in req.user for next middleware
 router.get(
   '/',
-  bookingController.createBookingCheckout,
+  // bookingController.createBookingCheckout,
   authController.isLoggedIn,
   viewsController.getOverview
 );
