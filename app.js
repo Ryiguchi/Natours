@@ -21,6 +21,9 @@ import cspOptions from './utils/csp.js';
 
 export const app = express();
 
+// allows us to read the changed http header from huroku
+app.enable('trust proxy');
+
 //  -- set view engine
 app.set('view engine', 'pug');
 //  -- set template folder

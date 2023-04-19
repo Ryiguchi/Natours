@@ -12,21 +12,16 @@ const signToken = (id) => {
   });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
-  const cookieOptions = {
+  res.cookie('jwt', token, {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
-    // will only be sent over HTTPS
-    // secure: true,
-    // can not be accessed or modified by the browser
     httpOnly: true,
-  };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-
-  res.cookie('jwt', token, cookieOptions);
+    secure: req.secure || req.headers('x-forwarded-proto') === 'https',
+  });
 
   // removes password from the output but not in the DB
   user.password = undefined;
@@ -46,7 +41,7 @@ export const signUp = catchAsync(async (req, res, next) => {
   const url = `${req.protocol}://${req.get('host')}/me`;
   await new Email(newUser, url).sendWelcome();
 
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, req, res);
 });
 
 export const login = catchAsync(async (req, res, next) => {
@@ -63,7 +58,7 @@ export const login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401));
   }
   //send token to client
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 // log out user by over-riding the cookie
@@ -224,7 +219,7 @@ export const resetPassword = catchAsync(async (req, res, next) => {
   // 3) UPDATE changedPasswordAt property for the user
 
   // 4) log in the user
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 export const updatePassword = catchAsync(async (req, res, next) => {
@@ -243,5 +238,5 @@ export const updatePassword = catchAsync(async (req, res, next) => {
   // never use update on things like passwords that depend on validators or middleware
   await user.save();
   // 4) Log in user, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
