@@ -82,7 +82,6 @@ export const updateMe = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(req.body, 'email', 'name');
   // add photo if exists
   if (req.file) filteredBody.photo = req.file.filename;
-  console.log(filteredBody);
   // 3) Update user doc
   // "new" option - return new doc?
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {

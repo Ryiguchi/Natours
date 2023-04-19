@@ -57,7 +57,6 @@ export default class Email {
 
     // 3) create transport and send email
     await this.newTransport().sendMail(mailOptions);
-    console.log(2);
   }
 
   async sendWelcome() {

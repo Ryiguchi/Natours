@@ -8,6 +8,7 @@ import xss from 'xss-clean';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
 import csp from 'express-csp';
+import compression from 'compression';
 
 import AppError from './utils/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
@@ -73,6 +74,9 @@ app.use(
     ],
   })
 );
+
+// -- compresses all TEXT that is sent to client
+app.use(compression());
 
 // Test middleware
 app.use((req, res, next) => {

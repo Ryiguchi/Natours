@@ -5,8 +5,8 @@ export const updateSettings = async (data, type) => {
   // when sending formData with fetch(), no contenet-type or JSON.stringify
   const url =
     type === 'password'
-      ? `http://127.0.0.1:8000/api/v1/users/updateMyPassword`
-      : `http://127.0.0.1:8000/api/v1/users/updateMe`;
+      ? `/api/v1/users/updateMyPassword`
+      : `/api/v1/users/updateMe`;
   const options = {
     method: 'PATCH',
     body: data,

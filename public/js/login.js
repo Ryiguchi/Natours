@@ -2,7 +2,8 @@ import { showAlert } from './alerts';
 
 export const login = async (email, password) => {
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/v1/users/login', {
+    // relative url will work because website and api are hosted on same server
+    const res = await fetch('/api/v1/users/login', {
       method: 'POST',
       headers: {
         'content-type': 'application/json; charset=UTF-8',
@@ -27,7 +28,7 @@ export const login = async (email, password) => {
 
 export const logout = async () => {
   try {
-    const res = await fetch('http://127.0.0.1:8000/api/v1/users/logout');
+    const res = await fetch('/api/v1/users/logout');
     const data = await res.json();
 
     if (res.ok) {
