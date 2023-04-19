@@ -11,6 +11,7 @@ dotenv.config({ path: './config.env' });
 
 (async () => {
   const { app } = await import('./app.js');
+  // must set port to process.env.PORT for heroku to work
   const port = process.env.PORT || 8000;
   app.listen(port, () => {
     console.log(`App running on port ${port}`);
