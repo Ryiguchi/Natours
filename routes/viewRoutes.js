@@ -4,6 +4,9 @@ import * as authController from '../controllers/authenticationController.js';
 import * as bookingController from '../controllers/bookingController.js';
 
 const router = express.Router();
+
+// use to attatch a variable to req.locals to use in templates
+router.use(viewsController.alerts);
 // isloggedIn checks for cookie from client and puts the user on req.locals for templates,
 // protect checks for bearer token and put user in req.user for next middleware
 router.get(
