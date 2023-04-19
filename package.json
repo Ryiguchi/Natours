@@ -4,8 +4,8 @@
   "description": "Take a tour with us!",
   "type": "module",
   "scripts": {
-    "start": "node  server.js",
-    "dev": "nodemon  server.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
     "debug": "ndb server.js",
     "watch": "parcel watch public/js/index.js --dist-dir public/js/dist",
     "build": "parcel build public/js/index.js --dist-dir public/js/dist"
