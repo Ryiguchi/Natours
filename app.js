@@ -9,6 +9,7 @@ import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
 import csp from 'express-csp';
 import compression from 'compression';
+import cors from 'cors';
 
 import AppError from './utils/appError.js';
 import globalErrorHandler from './controllers/errorController.js';
@@ -30,6 +31,18 @@ app.set('view engine', 'pug');
 app.set('views', path.join(process.cwd(), 'views'));
 
 // 1) GLOBAL MIDDLEWARES
+
+// -- implement CORS - simple requests
+// sets Access-Control-Allow-Origin hearer to *
+app.use(cors());
+// app.use(cors({
+//   origin: '<url>'
+// }))
+
+// app.options id just another hyyp method like get, post, put, patch that we can respond to
+// for non-simple requests, we need to respond to the browsers options request in the pre-flight phase
+app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors());
 
 //  -- serving static files
 app.use(express.static(path.join(process.cwd(), 'public')));
@@ -89,6 +102,7 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
+// could app cors() here as well
 app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
